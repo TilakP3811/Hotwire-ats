@@ -8,6 +8,7 @@ gem "rails", "~> 7.0.2"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
+gem "devise", "~> 4.9"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -69,3 +70,5 @@ end
 
 
 gem "stimulus_reflex", "= 3.5.0.pre8"
+
+gem "inline_svg", "~> 1.9"
