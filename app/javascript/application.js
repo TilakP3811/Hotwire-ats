@@ -7,6 +7,7 @@ import mrujs from "mrujs";
 import "trix";
 import "@rails/actiontext";
 import { CableCar } from "mrujs/plugins";
+import * as ActiveStorage from "@rails/activestorage";
 
 mrujs.start({
   plugins: [
@@ -14,4 +15,5 @@ mrujs.start({
   ],
 });
 
+ActiveStorage.start();
 CableReady.initialize({ consumer });
