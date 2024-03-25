@@ -13,6 +13,7 @@ class Applicant < ApplicationRecord
 
   belongs_to :job
   has_one_attached :resume
+  has_many :emails, dependent: :destroy
 
   enum stage: {
     application: 'application',

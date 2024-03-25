@@ -18,7 +18,7 @@ class Job < ApplicationRecord
     sort, direction = selection.split('-')
     order("#{sort} #{direction}")
   end
-  
+
   belongs_to :account
   has_many :applicants, dependent: :destroy
   has_rich_text :description
