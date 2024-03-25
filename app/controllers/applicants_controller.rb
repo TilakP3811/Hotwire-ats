@@ -1,10 +1,14 @@
 class ApplicantsController < ApplicationController
+  include Filterable
+
   before_action :authenticate_user!
+  before_action :turbo_frame_request_variant
   before_action :set_applicant, only: %i[ show edit update destroy change_stage ]
 
   # GET /applicants or /applicants.json
   def index
-    @applicants = Applicant.all
+    @grouped_applicants = filter!(Applicant)
+                            .group_by(&:stage)
   end
 
   # GET /applicants/1 or /applicants/1.json
@@ -67,13 +71,21 @@ class ApplicantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_applicant
-      @applicant = Applicant.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_applicant
+    @applicant = Applicant.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def applicant_params
-      params.require(:applicant).permit(:first_name, :last_name, :email, :phone, :stage, :status, :job_id, :resume)
-    end
+  # Only allow a list of trusted parameters through.
+  def applicant_params
+    params.require(:applicant).permit(:first_name, :last_name, :email, :phone, :stage, :status, :job_id, :resume)
+  end
+
+  def search_params
+    params.permit(:query, :job, :sort)
+  end
+
+  def turbo_frame_request_variant
+    request.variant = :turbo_frame if turbo_frame_request?
+  end
 end
