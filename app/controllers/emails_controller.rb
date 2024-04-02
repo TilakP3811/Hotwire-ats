@@ -28,6 +28,18 @@ class EmailsController < ApplicationController
     end
   end
 
+  def index
+    @emails = Email.where(applicant_id: params[:applicant_id]).with_rich_text_body.order(created_at: :desc)
+  end
+
+  def show
+    @email = Email.find(params[:id])
+    html = render_to_string(partial: 'email', locals: { email: @email })
+    render operations: cable_car
+                         .inner_html('#slideover-content', html: html)
+                         .text_content('#slideover-header', text: @email.subject)
+  end
+
   private
 
   def set_applicant
